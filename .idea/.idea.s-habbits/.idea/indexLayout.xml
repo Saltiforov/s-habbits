@@ -3,6 +3,8 @@
   <component name="UserContentModel">
     <attachedFolders />
     <explicitIncludes />
-    <explicitExcludes />
+    <explicitExcludes>
+      <Path>S-Habbits.Front</Path>
+    </explicitExcludes>
   </component>
 </project>
