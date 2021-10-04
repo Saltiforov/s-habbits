@@ -1,22 +1,20 @@
 using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 
-namespace S_Habbits.Entities.Entities
+namespace S_Habbits.Data
 {
-    public class User
+    public class ToDoTask
     {
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Id { get; set; }
         [Required]
-        public string Email { get; set; }
+        public DateTime DateTime { get; set; }
         [Required]
-        public string Username { get; set; }
+        public string Message { get; set; }
         [Required]
-        public string Password { get; set; }
-        
+        public bool IsChecked { get; set; }
+        public User User { get; set; }
     }
 }
