@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace S_Habbits.Data
 {
@@ -15,5 +16,7 @@ namespace S_Habbits.Data
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+        [NotNull]
+        public int Points { get; set; }
     }
 }

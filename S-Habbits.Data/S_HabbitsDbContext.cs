@@ -10,5 +10,7 @@ namespace S_Habbits.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<ToDoTask> ToDoTasks { get; set; }
+        public DbSet<Habbit> Habbits { get; set; }
+        public DbSet<HabbitEvent> HabbitEvents { get; set; }
     }
 }
