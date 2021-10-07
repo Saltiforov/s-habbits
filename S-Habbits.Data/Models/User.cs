@@ -16,7 +16,6 @@ namespace S_Habbits.Data
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
-        [NotNull]
         public int Points { get; set; }
     }
 }

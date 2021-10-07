@@ -11,6 +11,8 @@ namespace S_Habbits.Api
 {
     public class Program
     {
+        public static string Username = "admin";
+        public static string Password = "password";
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

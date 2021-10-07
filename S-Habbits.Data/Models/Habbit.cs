@@ -8,7 +8,8 @@ namespace S_Habbits.Data
     {
         public Habbit()
         {
-            Id= Guid.NewGuid();
+            Id = Guid.NewGuid();
+            CreateDate = DateTime.Now;
         }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]

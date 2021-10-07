@@ -6,11 +6,16 @@ namespace S_Habbits.Data
 {
     public class ToDoTask
     {
+        public ToDoTask()
+        {
+            Id=Guid.NewGuid();
+            CreateDateTime = DateTime.Now;
+        }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
         [Required]
         public string Message { get; set; }
         [Required]
