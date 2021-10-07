@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using S_Habbits.Data;
 
 namespace S_Habbits.Shared.ViewModel
@@ -9,7 +10,7 @@ namespace S_Habbits.Shared.ViewModel
         public Guid Id { get; set; }
         public DateTime DateTime { get; set; }
         public bool IsChecked { get; set; }
-        [IgnoreDataMember]
+        [JsonIgnore]
         public Habbit Habbit { get; set; }
     }
 }

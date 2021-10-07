@@ -32,8 +32,8 @@ namespace S_Habbits.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.ConfigureDatabase(Configuration);
-           services.ConfigureAuthentication();
-           
+            services.ConfigureAuthentication();
+            services.ConfigureAutoMapper();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -49,7 +49,11 @@ namespace S_Habbits.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "S_Habbits.Api v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "S_Habbits.Api v1");
+                    c.RoutePrefix = string.Empty;
+                });
             }
             app.UseHttpsRedirection();
             app.UseRouting();

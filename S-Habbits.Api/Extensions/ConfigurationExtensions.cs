@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using S_Habbits.Data;
+using S_Habbits.Shared.Profiles;
 
 namespace S_Habbits.Api.Extensions
 {
@@ -46,6 +48,17 @@ namespace S_Habbits.Api.Extensions
                 policy.AllowAnyOrigin();
             });
 
+        }
+        public static void ConfigureAutoMapper(this IServiceCollection services)
+        {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new HabbitProfile());
+                mc.AddProfile(new HabbitEventProfile());
+                mc.AddProfile(new ToDoTaskProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
     }
 }

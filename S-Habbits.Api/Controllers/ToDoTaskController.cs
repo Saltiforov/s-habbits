@@ -1,8 +1,13 @@
-﻿using System.Net;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using S_Habbits.Data;
+using S_Habbits.Shared.ViewModel;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace S_Habbits.Api.Controllers
@@ -12,21 +17,25 @@ namespace S_Habbits.Api.Controllers
     public class ToDoTaskController : ControllerBase
     {
         private S_HabbitsDbContext _db;
-
-        public ToDoTaskController(S_HabbitsDbContext db)
+        private IMapper _mapper;
+        public ToDoTaskController(S_HabbitsDbContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
 
 
         [SwaggerOperation("GetAllToDoTasks")]
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(ToDoTask), 200)]
+        [ProducesResponseType(typeof(IEnumerable<ToDoTaskViewModel>), 200)]
         [Route("/ToDoTasks")]
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            string username = User.Identity?.Name;
+            IEnumerable<ToDoTaskViewModel> toDoTaskViewModels = _mapper.Map<IEnumerable<ToDoTaskViewModel>>(
+                _db.ToDoTasks.Where(d => d.User.Username == username).ToList());
             return Ok();
         }
     }
