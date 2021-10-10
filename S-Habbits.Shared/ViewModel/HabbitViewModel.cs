@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using S_Habbits.Data;
+using S_Habbits.Data.Models;
 
 namespace S_Habbits.Shared.ViewModel
 {
@@ -11,8 +10,9 @@ namespace S_Habbits.Shared.ViewModel
         public string Message { get; set; }
         public DateTime CreateDate { get; set; }
         public int RewardPoints { get; set; }
-        [JsonIgnore]
-        public User User { get; set; }
+
+        [JsonIgnore] public User User { get; set; }
+
         public HabbitEventViewModel LastHabbitEvent { get; set; }
     }
 }

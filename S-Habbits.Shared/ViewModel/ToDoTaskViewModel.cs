@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using S_Habbits.Data;
+using S_Habbits.Data.Models;
 
 namespace S_Habbits.Shared.ViewModel
 {
@@ -12,7 +10,7 @@ namespace S_Habbits.Shared.ViewModel
         public DateTime CreateDateTime { get; set; }
         public string Message { get; set; }
         public bool IsChecked { get; set; }
-        [JsonIgnore]
-        public User User { get; set; }
+
+        [JsonIgnore] public User User { get; set; }
     }
 }

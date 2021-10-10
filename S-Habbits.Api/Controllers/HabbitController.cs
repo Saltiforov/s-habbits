@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using S_Habbits.Data;
+using S_Habbits.Data.Models;
 using S_Habbits.Shared.ViewModel;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -17,9 +18,10 @@ namespace S_Habbits.Api.Controllers
     [ApiController]
     public class HabbitController : ControllerBase
     {
-        private S_HabbitsDbContext _db;
-        private IMapper _mapper;
-        public HabbitController(S_HabbitsDbContext db, IMapper mapper)
+        private readonly SHabbitsDbContext _db;
+        private readonly IMapper _mapper;
+
+        public HabbitController(SHabbitsDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
@@ -33,14 +35,13 @@ namespace S_Habbits.Api.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            string username = User.Identity?.Name;
-            IEnumerable<HabbitViewModel> habbitViewModels = _mapper.Map<IEnumerable<HabbitViewModel>>(
+            var username = User.Identity?.Name;
+            var habbitViewModels = _mapper.Map<IEnumerable<HabbitViewModel>>(
                 _db.Habbits.Where(d => d.User.Username == username).ToList());
             foreach (var habbitViewModel in habbitViewModels)
-            {
-                habbitViewModel.LastHabbitEvent = _mapper.Map<HabbitEventViewModel>(await _db.HabbitEvents.OrderByDescending(d => d.DateTime)
+                habbitViewModel.LastHabbitEvent = _mapper.Map<HabbitEventViewModel>(await _db.HabbitEvents
+                    .OrderByDescending(d => d.DateTime)
                     .LastOrDefaultAsync(d => d.Habbit.Id == habbitViewModel.Id));
-            }
             return Ok(habbitViewModels);
         }
 
@@ -51,29 +52,27 @@ namespace S_Habbits.Api.Controllers
         [Route("Add")]
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Add(string message,int rewardPoints)
+        public async Task<IActionResult> Add(string message, int rewardPoints)
         {
             if (!string.IsNullOrEmpty(message))
             {
-                string username = User.Identity?.Name;
+                var username = User.Identity?.Name;
                 var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
-                var habbit = new Habbit()
+                var habbit = new Habbit
                 {
                     Message = message,
                     User = user,
-                    RewardPoints = rewardPoints,
+                    RewardPoints = rewardPoints
                 };
                 _db.Habbits.Add(habbit);
                 await _db.SaveChangesAsync();
                 return Ok("Success added");
             }
-            else
-            {
-                return NotFound("Message is empty");
-            }
+
+            return NotFound("Message is empty");
         }
-        
-        
+
+
         [SwaggerOperation("Remove Habbit")]
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), 200)]
@@ -82,8 +81,7 @@ namespace S_Habbits.Api.Controllers
         [Authorize]
         public async Task<IActionResult> Remove(Guid idHabbit)
         {
-            
-            string username = User.Identity?.Name;
+            var username = User.Identity?.Name;
             var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
             var habbit = await _db.Habbits.FirstOrDefaultAsync(d => d.User == user && d.Id == idHabbit);
             if (habbit != null)
@@ -92,11 +90,8 @@ namespace S_Habbits.Api.Controllers
                 await _db.SaveChangesAsync();
                 return Ok("Success added");
             }
-            else
-            {
-                return NotFound("Not found habbit");
-            }
-        }
 
+            return NotFound("Not found habbit");
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace S_Habbits.Data.Migrations
+namespace S_Habbits.Migrations
 {
     public partial class AddUserAndHabbitWithEvent : Migration
     {

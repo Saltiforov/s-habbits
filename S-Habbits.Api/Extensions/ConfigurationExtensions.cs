@@ -15,7 +15,7 @@ namespace S_Habbits.Api.Extensions
     {
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<S_HabbitsDbContext>(d =>
+            services.AddDbContext<SHabbitsDbContext>(d =>
             {
                 d.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
@@ -23,20 +23,20 @@ namespace S_Habbits.Api.Extensions
 
         public static void ConfigureAuthentication(this IServiceCollection services)
         {
-            services.AddAuthentication(options => { 
-                options.DefaultScheme = "Cookies"; 
-            }).AddCookie("Cookies", options => {
-                options.Cookie.Name = "auth_cookie";
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Events = new CookieAuthenticationEvents
-                {                          
-                    OnRedirectToLogin = redirectContext =>
+            services.AddAuthentication(options => { options.DefaultScheme = "Cookies"; }).AddCookie("Cookies",
+                options =>
+                {
+                    options.Cookie.Name = "auth_cookie";
+                    options.Cookie.SameSite = SameSiteMode.None;
+                    options.Events = new CookieAuthenticationEvents
                     {
-                        redirectContext.HttpContext.Response.StatusCode = 401;
-                        return Task.CompletedTask;
-                    }
-                };                
-            });
+                        OnRedirectToLogin = redirectContext =>
+                        {
+                            redirectContext.HttpContext.Response.StatusCode = 401;
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
         }
 
         public static void ConfigureCors(this IApplicationBuilder app)
@@ -47,8 +47,8 @@ namespace S_Habbits.Api.Extensions
                 policy.AllowAnyMethod();
                 policy.AllowAnyOrigin();
             });
-
         }
+
         public static void ConfigureAutoMapper(this IServiceCollection services)
         {
             var mappingConfig = new MapperConfiguration(mc =>
@@ -57,7 +57,7 @@ namespace S_Habbits.Api.Extensions
                 mc.AddProfile(new HabbitEventProfile());
                 mc.AddProfile(new ToDoTaskProfile());
             });
-            IMapper mapper = mappingConfig.CreateMapper();
+            var mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
         }
     }

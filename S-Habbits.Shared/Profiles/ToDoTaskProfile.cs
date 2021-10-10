@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using S_Habbits.Data;
+using S_Habbits.Data.Models;
 using S_Habbits.Shared.ViewModel;
 
 namespace S_Habbits.Shared.Profiles

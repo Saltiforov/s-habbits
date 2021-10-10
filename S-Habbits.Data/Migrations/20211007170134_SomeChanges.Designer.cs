@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using S_Habbits;
 using S_Habbits.Data;
 
-namespace S_Habbits.Data.Migrations
+namespace S_Habbits.Migrations
 {
-    [DbContext(typeof(S_HabbitsDbContext))]
+    [DbContext(typeof(SHabbitsDbContext))]
     [Migration("20211007170134_SomeChanges")]
     partial class SomeChanges
     {

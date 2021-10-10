@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace S_Habbits.Data
+namespace S_Habbits.Data.Models
 {
     public class Habbit
     {
@@ -13,17 +11,17 @@ namespace S_Habbits.Data
             Id = Guid.NewGuid();
             CreateDate = DateTime.Now;
         }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid Id { get; set; }
-        [Required]
-        public string Message { get; set; }
-        [Required]
-        public DateTime CreateDate { get; set; }
-        [Required]
-        public int RewardPoints { get; set; }
-        [Required]
-        public User User { get; set; }
 
+        [Required] public string Message { get; set; }
+
+        [Required] public DateTime CreateDate { get; set; }
+
+        [Required] public int RewardPoints { get; set; }
+
+        [Required] public User User { get; set; }
     }
 }

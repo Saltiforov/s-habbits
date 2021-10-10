@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
+using S_Habbits.Data.Models;
 
 namespace S_Habbits.Data
 {
-    public class S_HabbitsDbContext : DbContext
+    public class SHabbitsDbContext : DbContext
     {
-        public S_HabbitsDbContext(DbContextOptions<S_HabbitsDbContext> options) : base(options)
+        public SHabbitsDbContext(DbContextOptions<SHabbitsDbContext> options) : base(options)
         {
-            
         }
+
         public DbSet<User> Users { get; set; }
         public DbSet<ToDoTask> ToDoTasks { get; set; }
         public DbSet<Habbit> Habbits { get; set; }
