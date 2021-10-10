@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
@@ -30,8 +31,8 @@ namespace S_Habbits.Api.Controllers
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         [Route("Register")]
         [HttpPost]
-        public async Task<IActionResult> Register(string email, string username, string password,
-            string confirmPassword)
+        public async Task<IActionResult> Register([Required] string email, [Required] string username, [Required] string password,
+            [Required] string confirmPassword)
         {
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
@@ -74,7 +75,7 @@ namespace S_Habbits.Api.Controllers
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login([Required] string username, [Required] string password)
         {
             // if (!IsValidUsernameAndPasswod(username, password))
             //     return BadRequest();

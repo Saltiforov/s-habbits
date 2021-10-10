@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace S_Habbits.Api.Controllers
         [Route("Add")]
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Add(string message, int rewardPoints)
+        public async Task<IActionResult> Add([Required] string message, [Required] int rewardPoints)
         {
             if (!string.IsNullOrEmpty(message))
             {
@@ -64,7 +65,7 @@ namespace S_Habbits.Api.Controllers
                     User = user,
                     RewardPoints = rewardPoints
                 };
-                _db.Habbits.Add(habbit);
+                await _db.Habbits.AddAsync(habbit);
                 await _db.SaveChangesAsync();
                 return Ok("Success added");
             }
@@ -79,14 +80,35 @@ namespace S_Habbits.Api.Controllers
         [Route("Remove")]
         [HttpDelete]
         [Authorize]
-        public async Task<IActionResult> Remove(Guid idHabbit)
+        public async Task<IActionResult> Remove([Required] Guid idHabbit)
         {
             var username = User.Identity?.Name;
             var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
             var habbit = await _db.Habbits.FirstOrDefaultAsync(d => d.User == user && d.Id == idHabbit);
             if (habbit != null)
             {
-                _db.Habbits.Add(habbit);
+                _db.Habbits.Remove(habbit);
+                await _db.SaveChangesAsync();
+                return Ok("Success added");
+            }
+
+            return NotFound("Not found habbit");
+        }
+        
+        [SwaggerOperation("Add habbit event")]
+        [SwaggerResponse((int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), 200)]
+        [Route("Event/Add")]
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddEvent([Required] Guid idHabbit)
+        {
+            var username = User.Identity?.Name;
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var habbit = await _db.Habbits.FirstOrDefaultAsync(d => d.User == user && d.Id == idHabbit);
+            if (habbit != null)
+            {
+                _db.Habbits.Remove(habbit);
                 await _db.SaveChangesAsync();
                 return Ok("Success added");
             }

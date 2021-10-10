@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -48,7 +49,7 @@ namespace S_Habbits.Api.Controllers
         [HttpPost]
         [Route("Add")]
         [Authorize]
-        public async Task<IActionResult> Add(string message)
+        public async Task<IActionResult> Add([Required] string message)
         {
             var username = User.Identity?.Name;
             var user = await _db.Users.FirstOrDefaultAsync(d => d.Username == username);
@@ -74,7 +75,7 @@ namespace S_Habbits.Api.Controllers
         [HttpDelete]
         [Route("Remove")]
         [Authorize]
-        public async Task<IActionResult> Remove(Guid idToDoTask)
+        public async Task<IActionResult> Remove([Required] Guid idToDoTask)
         {
             var username = User.Identity?.Name;
             var user = await _db.Users.FirstOrDefaultAsync(d => d.Username == username);
