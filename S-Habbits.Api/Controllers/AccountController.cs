@@ -27,11 +27,11 @@ namespace S_Habbits.Api.Controllers
         [SwaggerOperation("Register")]
         [SwaggerResponse((int) HttpStatusCode.OK)]
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
-        [Route("/Register")]
+        [Route("Register")]
         [HttpPost]
         public async Task<IActionResult> Register(string email, string username, string password,string confirmPassword)
         {
-            if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(username) &&string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
                 if(!IsValidMail(email))
                 {
@@ -81,7 +81,7 @@ namespace S_Habbits.Api.Controllers
         [SwaggerOperation("Login")]
         [SwaggerResponse((int)HttpStatusCode.OK)]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
-        [Route("/Login")]
+        [Route("Login")]
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
@@ -108,7 +108,7 @@ namespace S_Habbits.Api.Controllers
        [SwaggerResponse((int)HttpStatusCode.OK)]
        [SwaggerResponse((int)HttpStatusCode.NotFound)]
        [HttpPost]
-       [Route("/Logout")]
+       [Route("Logout")]
        [Authorize]
        public async Task<IActionResult> Logout()
         {

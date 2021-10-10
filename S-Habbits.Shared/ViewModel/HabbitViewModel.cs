@@ -13,5 +13,6 @@ namespace S_Habbits.Shared.ViewModel
         public int RewardPoints { get; set; }
         [JsonIgnore]
         public User User { get; set; }
+        public HabbitEventViewModel LastHabbitEvent { get; set; }
     }
 }

@@ -25,13 +25,25 @@ namespace S_Habbits.Api.Controllers
         }
 
 
-        [SwaggerOperation("GetAllToDoTasks")]
+        [SwaggerOperation("Get All ToDoTasks")]
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(IEnumerable<ToDoTaskViewModel>), 200)]
-        [Route("/ToDoTasks")]
         [HttpGet]
         [Authorize]
+        
         public async Task<IActionResult> Index()
+        {
+            string username = User.Identity?.Name;
+            IEnumerable<ToDoTaskViewModel> toDoTaskViewModels = _mapper.Map<IEnumerable<ToDoTaskViewModel>>(
+                _db.ToDoTasks.Where(d => d.User.Username == username).ToList());
+            return Ok();
+        }
+        [SwaggerOperation("Get All ToDoTasks")]
+        [SwaggerResponse((int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<ToDoTaskViewModel>), 200)]
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Add(string message)
         {
             string username = User.Identity?.Name;
             IEnumerable<ToDoTaskViewModel> toDoTaskViewModels = _mapper.Map<IEnumerable<ToDoTaskViewModel>>(
