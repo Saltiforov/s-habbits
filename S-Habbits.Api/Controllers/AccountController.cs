@@ -107,7 +107,7 @@ namespace S_Habbits.Api.Controllers
        [SwaggerOperation("Logout")]
        [SwaggerResponse((int)HttpStatusCode.OK)]
        [SwaggerResponse((int)HttpStatusCode.NotFound)]
-       [HttpPost]
+       [HttpGet]
        [Route("Logout")]
        [Authorize]
        public async Task<IActionResult> Logout()
