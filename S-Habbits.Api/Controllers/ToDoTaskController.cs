@@ -65,11 +65,31 @@ namespace S_Habbits.Api.Controllers
                 await _db.SaveChangesAsync();
                 return Ok("Success created");
             }
-
             return NotFound("Not found User");
         }
 
-        [SwaggerOperation("Remove ToDoTasks")]
+        [SwaggerOperation("Update ToDoTask")]
+        [SwaggerResponse((int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), 200)]
+        [HttpPatch]
+        [Route("Update")]
+        [Authorize]
+        public async Task<IActionResult> Update([Required] Guid idToDoTask,bool status)
+        {
+            string username = User.Identity?.Name;
+            var toDoTask = await _db.ToDoTasks.FirstOrDefaultAsync(d => d.Id == idToDoTask && d.User.Username == username);
+            if (toDoTask != null)
+            {
+                toDoTask.IsChecked = status;
+                _db.ToDoTasks.Update(toDoTask);
+                await _db.SaveChangesAsync();
+                return Ok("Success edited");
+            }
+            return NotFound("ToDoTask not found");
+            
+        }
+
+        [SwaggerOperation("Remove ToDoTask")]
         [SwaggerResponse((int) HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), 200)]
         [HttpDelete]
@@ -82,13 +102,12 @@ namespace S_Habbits.Api.Controllers
             if (user != null)
             {
                 var toDoTask = await _db.ToDoTasks.FirstOrDefaultAsync(d => d.Id == idToDoTask && d.User == user);
-                if (toDoTask == null)
+                if (toDoTask != null)
                 {
                     _db.ToDoTasks.Remove(toDoTask);
                     await _db.SaveChangesAsync();
                     return Ok("Success deleted");
                 }
-
                 return NotFound("ToDoTask not found");
             }
 
